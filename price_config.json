@@ -1,0 +1,11 @@
+{
+    "url": "https://eu.shop.xreal.com/en-nl/products/xreal-one-pro",
+    "check_interval_seconds": 300,
+    "product_name": "XREAL One Pro",
+    "price_file": "last_price.json",
+    "notification": {
+        "enabled": true,
+        "sound": true,
+        "log_file": "price_alerts.log"
+    }
+}
