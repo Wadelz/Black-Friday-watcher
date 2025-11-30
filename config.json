@@ -1,0 +1,14 @@
+{
+    "url": "https://eu.shop.xreal.com/en-nl/products/xreal-one",
+    "check_interval_seconds": 60,
+    "product_name": "XREAL One",
+    "stock_indicators": {
+        "out_of_stock": ["out of stock", "sold out", "unavailable", "notify me"],
+        "in_stock": ["add to cart", "buy now", "add to bag", "in stock"]
+    },
+    "notification": {
+        "enabled": true,
+        "sound": true,
+        "log_file": "stock_alerts.log"
+    }
+}
