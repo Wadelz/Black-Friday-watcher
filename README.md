@@ -1,18 +1,27 @@
 # Black-Friday-watcher
 
-A stock monitoring tool to watch the XREAL One product page for availability during Black Friday sales.
+A monitoring tool suite to watch XREAL product pages for stock availability and price changes during Black Friday sales.
 
 ## Features
 
-- 🔄 Continuous monitoring of the XREAL One product page
+### Stock Watcher (`stock_watcher.py`)
+- 🔄 Continuous monitoring of the XREAL One product page for stock availability
 - 🔔 Alerts when stock becomes available (sound + visual notification)
 - 📝 Logging of all stock checks
 - ⚙️ Configurable check intervals and stock indicators
 - 🛑 Graceful shutdown with Ctrl+C
 
-## Target URL
+### Price Watcher (`price_watcher.py`)
+- 💰 Continuous monitoring of the XREAL One Pro product page for price changes
+- 🔔 Alerts when price changes (sound + visual notification)
+- 📝 Logging of all price checks
+- 💾 Persists last known price to detect changes across restarts
+- ⚙️ Configurable check intervals
 
-This tool monitors: https://eu.shop.xreal.com/en-nl/products/xreal-one
+## Target URLs
+
+- **Stock Watcher**: https://eu.shop.xreal.com/en-nl/products/xreal-one
+- **Price Watcher**: https://eu.shop.xreal.com/en-nl/products/xreal-one-pro
 
 ## Requirements
 
@@ -34,7 +43,9 @@ This tool monitors: https://eu.shop.xreal.com/en-nl/products/xreal-one
 
 ## Usage
 
-### Continuous Monitoring
+### Stock Watcher
+
+#### Continuous Monitoring
 
 Run the stock watcher to continuously monitor for stock availability:
 
@@ -42,7 +53,7 @@ Run the stock watcher to continuously monitor for stock availability:
 python stock_watcher.py
 ```
 
-### Single Check
+#### Single Check
 
 Check the stock status once and exit:
 
@@ -55,7 +66,7 @@ Exit codes for single check:
 - `1` - Product is out of stock
 - `2` - Unknown status or error
 
-### Custom Configuration
+#### Custom Configuration
 
 Use a custom configuration file:
 
@@ -63,9 +74,49 @@ Use a custom configuration file:
 python stock_watcher.py -c /path/to/custom-config.json
 ```
 
+### Price Watcher
+
+#### Continuous Monitoring
+
+Run the price watcher to continuously monitor for price changes:
+
+```bash
+python price_watcher.py
+```
+
+#### Single Check
+
+Check the current price once and exit:
+
+```bash
+python price_watcher.py --check-once
+```
+
+#### Custom Configuration
+
+Use a custom configuration file:
+
+```bash
+python price_watcher.py -c /path/to/custom-price-config.json
+```
+
+### Running Both Watchers
+
+To run both watchers simultaneously, open two terminal windows:
+
+```bash
+# Terminal 1 - Stock watcher for XREAL One
+python stock_watcher.py
+
+# Terminal 2 - Price watcher for XREAL One Pro
+python price_watcher.py
+```
+
 ## Configuration
 
-Edit `config.json` to customize the monitoring behavior:
+### Stock Watcher Configuration
+
+Edit `config.json` to customize the stock monitoring behavior:
 
 ```json
 {
@@ -84,18 +135,48 @@ Edit `config.json` to customize the monitoring behavior:
 }
 ```
 
-### Configuration Options
+#### Stock Watcher Configuration Options
 
 | Option | Description | Default |
 |--------|-------------|---------|
 | `url` | Product page URL to monitor | XREAL One page |
 | `check_interval_seconds` | Seconds between checks | 60 |
 | `product_name` | Name shown in alerts | XREAL One |
-| `stock_indicators.out_of_stock` | Text patterns indicating out of stock | Various |
-| `stock_indicators.in_stock` | Text patterns indicating availability | Various |
+| `stock_indicators.out_of_stock` | Text patterns indicating out of stock (case-insensitive) | Various |
+| `stock_indicators.in_stock` | Text patterns indicating availability (case-insensitive) | Various |
 | `notification.enabled` | Enable logging to file | true |
 | `notification.sound` | Play sound on stock alert | true |
 | `notification.log_file` | Log file path | stock_alerts.log |
+
+### Price Watcher Configuration
+
+Edit `price_config.json` to customize the price monitoring behavior:
+
+```json
+{
+    "url": "https://eu.shop.xreal.com/en-nl/products/xreal-one-pro",
+    "check_interval_seconds": 300,
+    "product_name": "XREAL One Pro",
+    "price_file": "last_price.json",
+    "notification": {
+        "enabled": true,
+        "sound": true,
+        "log_file": "price_alerts.log"
+    }
+}
+```
+
+#### Price Watcher Configuration Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `url` | Product page URL to monitor | XREAL One Pro page |
+| `check_interval_seconds` | Seconds between checks | 300 |
+| `product_name` | Name shown in alerts | XREAL One Pro |
+| `price_file` | File to persist last known price | last_price.json |
+| `notification.enabled` | Enable logging to file | true |
+| `notification.sound` | Play sound on price change | true |
+| `notification.log_file` | Log file path | price_alerts.log |
 
 ## Running in Background
 

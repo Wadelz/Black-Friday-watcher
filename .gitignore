@@ -35,6 +35,10 @@ env/
 # Log files
 *.log
 stock_alerts.log
+price_alerts.log
+
+# Price tracking state
+last_price.json
 
 # OS files
 .DS_Store
